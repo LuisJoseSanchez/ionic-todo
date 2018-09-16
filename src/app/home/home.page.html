@@ -4,14 +4,16 @@
       Tareas
     </ion-title>
     <ion-buttons slot="end">
-      <ion-button>
-      <ion-icon slot="icon-only" name="add"></ion-icon>
-    </ion-button>
+      <ion-button href="/edit" routerDirection="forward">
+        <ion-icon slot="icon-only" name="add"></ion-icon>
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-  Hola, qué tal.
-  <p>If you get lost, the <a target="_blank" rel="noopener" href="https://ionicframework.com/docs">docs</a> will be your guide.</p>
+  <ion-item *ngFor="let t of todos">
+    {{ t | json }}
+  </ion-item>
+
 </ion-content>
