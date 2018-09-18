@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Todo } from '../interfaces/todo';
+import { ActivatedRoute } from '@angular/router';
+import { TodoService } from '../services/todo.service';
 
 @Component({
   selector: 'app-edit-todo',
@@ -8,22 +10,26 @@ import { Todo } from '../interfaces/todo';
 })
 export class EditTodoPage implements OnInit {
 
-  private todo: Todo;
+  private todo: any;
 
-  constructor() {
-    this.todo = {
-      id: 0,
-      title: 'Fregar la cocina',
-      description: 'Escurrir bien para que no se formen charcos.'
-    }
-  }
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private todoService: TodoService
+  ) { }
 
   ngOnInit() {
-    // Grab id from route
-
+    let id = this.activatedRoute.snapshot.paramMap.get('id');
+    if (id) {
+      this.todo = this.todoService.getTodo(+id);
+    } else {
+      this.todo = {};
+      this.todo.title = '';
+      this.todo.description = '';
+    }
+    
   }
 
   saveTodo() {
-    console.log(this.todo);
+    this.todoService.saveTodo(this.todo);
   }
 }
