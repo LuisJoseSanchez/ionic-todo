@@ -13,10 +13,10 @@
 
 <ion-content padding>
 
-  <ion-list>
+  <ion-list lines="full">
     <ion-item [href]="'/edit/' + t.id" *ngFor="let t of todos">
-        {{ t.title }}
-      </ion-item>
+      {{ t.title }}
+    </ion-item>
   </ion-list>
 
 </ion-content>
