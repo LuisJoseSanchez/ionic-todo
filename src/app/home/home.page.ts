@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TodoService } from '../services/todo.service';
 import { Todo } from '../interfaces/todo';
-import { NavController } from '@ionic/angular';
+import { NavController, AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +14,8 @@ export class HomePage implements OnInit {
 
   constructor(
     private todoService: TodoService,
-    private navControler: NavController
+    private navControler: NavController,
+    private alertController: AlertController
   ) { }
 
   ngOnInit() {
@@ -25,7 +26,29 @@ export class HomePage implements OnInit {
     this.navControler.navigateForward('/edit/' + id);
   }
 
-  deleteDialog(id: number) {
+  async deleteDialog(id: number, title: string) {
 
+      const alert = await this.alertController.create({
+        header: 'Borrar tarea',
+        message: '¿Estás seguro que quieres borrar la tarea <b>"' + title + '"</b>?',
+        buttons: [
+          {
+            text: 'Cancelar',
+            role: 'cancel',
+            cssClass: 'secondary',
+            /*handler: (blah) => {
+              console.log('Confirm Cancel: blah');
+            }*/
+          }, {
+            text: 'Aceptar',
+            handler: () => {
+              this.todoService.deleteTodo(id);
+              this.todos = this.todoService.getTodos();
+            }
+          }
+        ]
+      });
+  
+      await alert.present();
   }
 }
